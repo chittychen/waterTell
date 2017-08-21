@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" type="text/css" href="./css/global.css"/>
+    <title>vita coco 补水计划</title>
+    <style type="text/css">
+        .page{width: 100%; background-image: url(./images/r-bg.jpg);background-size: 100% 100%;overflow: hidden}
+        .page>img{position: relative}
+        .page img:nth-of-type(1){position: relative;top: 0;left:0;width: 100%}
+        .page img:nth-of-type(2){width: 100%}
+        .page img:nth-of-type(3){width: 100%;top: 1rem;}
+        .page>div{width: 4rem;right: 1rem;position: absolute;    bottom: 1rem;}
+        .page>div img{width: 100%;}
+        .hand {position: absolute; top: 0; left: 0;}
+        .hand-animate { -webkit-animation: hand_move infinite 1s; }
+        @-webkit-keyframes hand_move {
+            0% {
+                -webkit-transform: rotate(0);
+                -moz-transform: rotate(0);
+                -ms-transform: rotate(0);
+                -o-transform: rotate(0);
+                transform: rotate(0); }
+            50% {
+                -webkit-transform: rotate(30deg);
+                -moz-transform: rotate(30deg);
+                -ms-transform: rotate(30deg);
+                -o-transform: rotate(30deg);
+                transform: rotate(30deg); }
+            100% {
+                -webkit-transform: rotate(0);
+                -moz-transform: rotate(0);
+                -ms-transform: rotate(0);
+                -o-transform: rotate(0);
+                transform: rotate(0); }
+        }
+
+        .audio{opacity: 0;}
+    </style>
+</head>
+<body>
+<div class="page home-page">
+<img src="./images/r-head.png?v=123">
+<img src="./images/r-1.gif" class="ico">
+<img src="./images/r-bottom.png">
+<div>
+    <img src="./images/r-circle.png">
+    <img src="./images/run.png" class="hand hand-animate">
+</div>
+</div>
+<audio src="mp3.mp3" autoplay="autoplay" loop="loop" preload="auto" class="audio" id="audio"></audio>
+<script type="application/javascript" src="./js/jquery-2.1.1.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {function audioAutoPlay() {
+        var audio = document.getElementById('audio');
+        audio.play();
+        document.addEventListener("WeixinJSBridgeReady", function () {
+            audio.play();
+        }, false);
+    }
+        audioAutoPlay();
+    });
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    $(".page").height(h +"px").width(w + "px");
+    /*摇一摇*/
+    $(document).ready(function() {
+
+        //判断系统是否支持html5摇一摇的相关属性
+        if (window.DeviceMotionEvent){
+            var x1,x2,x3,x4;
+            var x = t = z = lastX = lastY = lastZ = 0;
+            window.addEventListener('devicemotion',
+                function () {
+                    var acceleration = event.accelerationIncludingGravity;
+                    x = acceleration.x;
+                    y = acceleration.y;
+                    var mX = Math.abs(x - lastX);
+                    var mY = Math.abs(y - lastY);
+                    if ( mX > 30 || mY > 30) {
+                        $('.ico').attr('src','./images/r-3.gif?v=123');
+                    }
+                    if ( (mX > 10 && mX < 30) || (mY > 10 && mY < 30)) {
+                        $('.ico').attr('src','./images/r-2.gif');
+                    }
+                    lastX = x;
+                    lastY = y;
+                },false);
+        }
+        else {
+            alert('not support mobile event');
+        }
+    });
+</script>
+</body>
+</html>

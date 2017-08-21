@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" type="text/css" href="../css/global.css"/>
+    <title>商品兑换</title>
+    <style type="text/css">
+        .page{width: 100%; background-image: url(../images/bg.jpg); background-size: 100% 100%;}
+        .d-page .header{ position: absolute; font-size: 1rem; top: 2.5rem; left: 5%; width: 90%; height: 12.5rem;border-radius: .5rem;overflow: hidden}
+        .header>img{width: 100%;height: 100%;}
+        .header>p{position: absolute;bottom: 1rem;left: 1rem;float: left;width: 100%;height: 2rem;line-height: 2rem;}
+        .header span:nth-of-type(1){font-weight: bold;color: #fff;font-size: 1.1rem;float: left;display: inline-block}
+        .header span:nth-of-type(2){color: #fff;font-size: .8rem;float: left;margin-left: 3%;display: inline-block}
+
+        .page .content{width: 100%;padding:3% 7%;float: left;position: absolute;top: 14.5rem;}
+        .u-content{width: 100%;float: left;margin-bottom: 1rem;}
+        .u-content>li{width: 100%;float: left;margin-bottom: .8rem}
+        .c-head{color: #49b4e8;display: inline-block;width: 100%;font-size: 1.1rem;height: 2rem;line-height: 2rem; font-family: SimHei;}
+        li>p{color: #03529c;width: 100%;float: left;margin-top: 2%;line-height: 1.5rem;}
+        li>p span{padding-right: 3%}
+
+        .content .d-bottom{width: 100%;padding: 0;height: 3rem;line-height: 3rem;float: left;}
+        .d-bottom .b-left{float: left;font-size: 1.2rem;height: 100%;line-height: 3rem;}
+        .b-left span{font-size: 1rem;font-family: SimHei;}
+        .d-bottom>span{display: inline-block;height: 3rem;line-height: 3rem;width: 8rem;float: right;font-size: 1.2rem;background-color: #03529c;border-radius: .4rem;text-align: center;letter-spacing: .1rem}
+
+        .tip-bg{position: absolute;width: 100%;height: 100%;top: 0;left:0;background-color: rgba(0,0,0,0.4);display: none;}
+        .tip{ position: absolute; top: 29%; left: 11%; margin: auto; width: 78%; height: 13rem; background-color: #fff; border-radius: .5rem;display: none;}
+        .tip>img{      width: 4rem; margin-left: 37%; margin-top: 4%;}
+        .tip>p{    height: 3rem; line-height: 3rem; text-align: center; color: #03529c; font-size: 1.1rem; margin-bottom: 1rem;}
+        .tip>div{float: left;height: 2.5rem;line-height: 2.5rem;width: 100%;font-family: SimHei;}
+        .tip span{    width: 40%; display: inline-block; float: left; border: .15rem solid #03529c; margin-left: 7%; border-radius: .5rem; color: #808080; font-size: 1.2rem; text-align: center; font-weight: bold;}
+
+        .tip span:nth-of-type(2){ color: #fff; background-color: #03529c; }
+        .header1{ position: absolute; font-size: 1rem; top: 1rem; left: .5rem; width: 4rem; height: 1.5rem;line-height:1.5rem;text-align: center; }
+        .header1 img{width: .7rem;float: left;margin-left: 0;vertical-align: middle }
+    </style>
+</head>
+<body>
+<div class="page d-page">
+    <div class="header1 back">
+        <img src="../images/jt.png">
+        返回
+    </div>
+    <div class="header">
+        <img src="../images/img.jpg">
+        <p>
+            <span class="shop-name"></span>
+           <span class="shop-number"></span>
+        </p>
+        <div class="clears"></div>
+    </div>
+    <div class="content">
+        <ul class="u-content">
+            <li>
+                <span class="c-head">商品介绍：</span>
+                <p class="shop-introduce"></p>
+            </li>
+            <li>
+                <span class="c-head">使用范围：</span>
+                <p class="shop-rang"></p>
+            </li>
+            <li>
+                <span class="c-head">有效期：</span>
+                <p class="shop-time"></p>
+            </li>
+            <li>
+                <span class="c-head">温馨提示：</span>
+                <p class="shop-tip"></p>
+            </li>
+        </ul>
+        <div class="clears"></div>
+        <div class="d-bottom">
+            <div class="b-left"></div>
+            <span class="shop-btn">立即兑换</span>
+        </div>
+    </div>
+</div>
+<div class="tip-bg"></div>
+<div class="tip">
+    <img src="../images/w.png">
+    <p>确认兑换吗？</p>
+    <div>
+        <span class="cancel">取消</span>
+        <span class="ok">确认</span>
+    </div>
+</div>
+<script type="application/javascript" src="../js/jquery-2.1.1.min.js"></script>
+<script type="application/javascript" src="../js/global.js"></script>
+<script>
+    $(function(){
+
+        $('.d-bottom>span').click(function () {
+            $('.tip-bg').fadeIn();
+            $('.tip').fadeIn();
+        });
+
+        $('.cancel').click(function () {
+            $('.tip').fadeOut();
+            $('.tip-bg').fadeOut();
+        });
+
+
+        var Request = new Object();
+        Request = GetRequest();
+        var code = Request['code'];
+        var success = function(result){
+            result = $.parseJSON(result);
+            if (result.errorcode == 0) {
+                var data = result.data;
+                $('.header>img').attr('src','http://pandarun.crazypanda.cn'+data.shop_pic);
+                $('.shop-name').html(data.shop_name);
+                $('.shop-number').html(data.shop_number);
+                $('.b-left').html(' <span>单价：</span>'+data.shop_shuipiao+'水票');
+                $('.shop-introduce').html('<span>•</span>'+data.shop_introduce);
+                $('.shop-rang').html('<span>•</span>'+data.use_scope);
+                $('.shop-time').html('<span>•</span>'+data.validity);
+                $('.shop-shop').html('<span>•</span>'+data.reminder);
+
+
+            }
+            else{alert2(result.message)}
+        };
+        $.ajax({
+            type:"POST",
+            url:'http://pandarun.crazypanda.cn/index.php/Coco/getCoco',
+            data:{shopid:code},
+            success:success,
+            error:function(e){alert2("error")}
+        });
+
+        $('.tip .ok').click(function () {
+            var data = {
+                id:code,
+                memberId:localStorage.J_memberid,
+                tokenId:localStorage.J_token
+            };
+            $('.tip').fadeOut();
+            $('.tip-bg').fadeOut();
+            $.ajax({
+                type:"POST",
+                url:'http://pandarun.crazypanda.cn/index.php/Coco/exchange',
+                data:data,
+                success:function (result) {
+                    result =JSON.parse(result);
+                    if(result.errorcode == 0){
+                        window.location.href='list.html';
+                    }else{
+                        alert2(result.message)
+                    }
+                },
+                error:function(e){alert2("error")}
+            });
+        })
+
+    })
+</script>
+</body>
+</html>

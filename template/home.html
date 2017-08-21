@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="../css/global.css" type="text/css" rel="stylesheet">
+    <title>首页</title>
+    <style>
+        .page {background-color: #c2ebed; }
+        .section { width: 100%;}
+        .top-bg { width: 100%; height:12.6rem; background: url(../images/top-bg.png) no-repeat; background-size: 100% 100%; position: relative; top: 0; left:0}
+        .logo1 {     width: 96%;
+            height:10rem;
+            position: relative;
+            top: .5rem;
+            left: 2%;
+            overflow: hidden; }
+        .logo1>img{width: 100%;}
+        .logo2>img{width: 100%;}
+        .logo3>img{width: 100%;}
+        .logo2 { width: 96%; height: 10rem; position: relative; top: .5rem; left: 2%;  }
+        .logo3 { width: 96%;
+            height: 10rem;
+            position: relative;
+            top: .5rem;
+            left: 2%; }
+        .btn1 {position: absolute;right: 2.1rem;top: 2rem;padding: .2rem .6rem;color: #fff;border: .14rem solid #fff;border-radius: .4rem;font-size: .9rem;letter-spacing: .1rem;}
+        .line {       position: absolute;
+            bottom: 2.5rem;
+            left: 47%;
+            width: 49%;
+
+            border-top: 1px solid white;}
+        .text {     position: absolute;
+            bottom: .5rem;
+            left: 44%;
+            width: 55%;
+            height: 1.6rem;
+            font-size: 0.8rem;
+            text-align: center;
+            line-height: 1.6rem;
+            color: white;
+            overflow: hidden;}
+        .name {     position: absolute;
+            left: 0;
+            width: 41%;
+            height: 1.6rem;
+            font-size: 1rem;
+            text-align: center;
+            line-height: 1.6rem;
+            color: white;
+            overflow: hidden;
+            bottom: .5rem;}
+        .ticket {     position: absolute;
+            top: 52%;
+            left: 50%;
+            height: 3rem;}
+        .ticket-number { height: 50%; float: left; font-size: 1.5rem; color: white; overflow: hidden; }
+        .ticket-text { font-size: 0.8rem; text-align: center; color: white; overflow: hidden; height: 50%; float: left; position: relative; top:0.25rem; padding: 0 0.2rem; }
+        .ticket-pic { width: 1.3rem;
+            height: 1.2rem;
+            position: relative;
+            left: 1.5rem;
+            top: .2rem;
+            background: url(../images/水票.png) no-repeat;
+            background-size: 100% 100%;}
+        .day {     position: absolute;
+            top: 52%;
+            left: 80%;
+            height: 3rem;}
+        .day-number { height: 50%; float: left; font-size: 1.5rem; color: white; overflow: hidden; }
+        .day-text { font-size: 0.8rem; text-align: center; color: white; overflow: hidden; height: 50%; float: left; position: relative; top:0.4rem; padding: 0 0.2rem; }
+        .day-pic {     width: 1.2rem;
+            height: 1.2rem;
+            position: relative;
+            top: .2rem;
+            left: 0.5rem;
+            background: url(../images/天数.png) no-repeat;
+            background-size: 100% 100%;}
+        .head { width: 7rem;
+            height: 7rem;
+            border-radius: 50%;
+            position: absolute;
+            left: 6%;
+            top: 2.5rem;
+            overflow: hidden;}
+        .head>img{width: 100%;height: 100%;}
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="section">
+        <div class="top-bg">
+            <div class="btn1"><a href="rule.html">活动规则</a></div>
+            <div class="head">
+                <img id="headimg" src="../images/logo1.png" >
+            </div>
+            <div class="name">昵称昵称</div>
+            <div class="ticket">
+                <div class="ticket-number"><p id="p1"></p></div>
+                <div class="ticket-text">水票</div>
+                <div class="clears"></div>
+                <div class="ticket-pic"></div>
+            </div>
+            <div class="day">
+                <div class="ticket-number"><p id="p2"></p></div>
+                <div class="ticket-text">天</div>
+                <div class="clears"></div>
+                <div class="day-pic"></div>
+
+            </div>
+            <div class="line"></div>
+            <div class="text">每日公里数打卡，水票领不停。</div>
+        </div>
+        <div class="logo1"><img id="img1" src="../images/logo1.png"></div>
+        <div class="logo2"><img id="img2" src="../images/logo2.png"></div>
+        <div class="logo3"><img id="img3" src="../images/logo3.png"></div>
+    </div>
+</div>
+
+<script src="../js/jquery-2.1.1.min.js"></script>
+<script type="application/javascript" src="../js/global.js"></script>
+<script>
+    $(function () {
+        $('.logo1').click(function () {
+            window.location.href='about.html';
+        });
+
+        $('.logo2').click(function () {
+            window.location.href='xunLian.html';
+        });
+
+        $('.logo3').click(function () {
+            window.location.href='exchange.html';
+        });
+
+
+        var myDate = new Date();
+        myDate = myDate.toLocaleDateString().replace(/\//g,"");
+//        var memberID =localStorage.J_memberid= 46;
+//        var  token = localStorage.J_token ="3b21a116e9baa7d181deab13c7bae795dbb5eeaa";
+        var success = function(data){
+            data = $.parseJSON(data);
+            if (data.errorcode == 0) {
+                var value = data.data;
+                $('#headimg').attr('src',value.portrait_url);
+                $('#p1').html(value.shuipiao);
+                $('#p2').html(value.number);
+                $('.name').html(value.member_name);
+            }
+            else{alert2(data.message)}
+        };
+        $.ajax({
+            type:"POST",
+            url:'http://pandarun.crazypanda.cn/index.php/Coco/getCocoHome',
+            data:{memberId:localStorage.J_memberid, tokenId:localStorage.J_token},
+            success:success,
+            error:function(e){alert2("error")}
+        });
+
+    })
+</script>
+</body>
+</html>

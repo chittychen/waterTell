@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" type="text/css" href="../css/global.css"/>
+    <title>商品兑换</title>
+    <style type="text/css">
+        .page{width: 100%; background-image: url(../images/s-bg.jpg); background-size: 100% 100%;}
+        .header{ position: absolute; font-size: 1rem; top: 1rem; left: .5rem; width: 4rem; height: 1.5rem;line-height:1.5rem;text-align: center; }
+        .header img{width: .7rem;float: left;margin-left: 0;vertical-align: middle }
+        .e-page .e-btn{position: absolute;right: 2.1rem;top: 2rem;padding: .2rem .6rem;color: #fff;border: .14rem solid #fff;border-radius: .4rem;font-size: .9rem;letter-spacing: .1rem;}
+        .e-page .e-header{ position: absolute; top: 5rem; right: 2rem; margin: auto; width: 83%;}
+        .e-header>img{    width: 100%; position: absolute; top: 0; left: 0;  }
+        .e-header>p{    position: absolute; top: 1rem; right: 0; color: #fff; font-size: .8rem;font-weight: 100;}
+        .e-header>p span{  font-size: 1.2rem;-webkit-transform: scale(1,2);    display: inline-block; height: 2rem; transform: scale(1,2);}
+        .e-content{position: relative;float: left;width: 92%;left: 3%;top: 14rem;border-top: .15rem solid #006db8}
+        .e-content .e-li{width: 33%;float: left;border-right: .15rem solid #006db8;border-bottom: .15rem solid #006db8;height: 12rem;}
+        .e-content>li:nth-of-type(3n){border-right: none}
+        .e-li>img{width: 86%; border: .1rem solid #80a7d0;border-radius: .3rem;float: left;margin:.5rem 7%;height: 5.9rem;margin-top: .9rem}
+        .e-li>p:nth-of-type(1){font-size: 1rem;color: #fff;width: 100%;text-align: center;line-height: 1.3rem;float: left;}
+        .e-li>p:nth-of-type(2){font-size: .8rem;color: #fff;width: 100%;text-align: center;line-height: 1rem;float: left;}
+        .e-li>div{width: 100%;text-align: center;font-size: .9rem;line-height: 2rem;float: left;}
+        .e-li>div img{width: .9rem;    margin-right: 3%;}
+        .e-li>div span{display: inline-block;
+            float: left;
+            margin-left: 3%;}
+
+    </style>
+</head>
+<body>
+<div class="page e-page">
+    <div class="header close">
+        关闭
+    </div>
+    <div class="header back">
+        返回
+    </div>
+    <div class="e-btn">兑换记录</div>
+    <div class="e-header">
+        <img src="../images/g-1.png">
+        <p>
+            我的水票
+            <span>156</span>
+        </p>
+    </div>
+
+    <ul class="e-content">
+    </ul>
+</div>
+<script type="application/javascript" src="../js/jquery-2.1.1.min.js"></script>
+<script type="application/javascript" src="../js/global.js"></script>
+<script>
+    $(function(){
+        $('.e-btn').click(function () {
+            window.location.href="list.html";
+        });
+
+        var myDate = new Date();
+        myDate = myDate.toLocaleDateString().replace(/\//g,"");
+        var content = $('.e-content');
+        var success = function(result){
+            result = $.parseJSON(result);
+            if (result.errorcode == 0) {
+                var data =result.data;
+                var li,top,top1,middle,bottom;
+               for(var i =0;i<data.length;i++){
+                   li = $('<li class="e-li" data-id="' + data[i].shop_id + '"></li>');
+                   top = $('<img src="' +
+                       data[i].shop_pic +
+                       '">');
+                   top1 = $(' <p>' +
+                       data[i].shop_name+
+                       '</p>');
+                   middle =$('<p>' +
+                       data[i].shop_number +
+                       '</p>');
+                   bottom = $('<div><img src="../images/woter.png"><e style="color: #99ffff">' +
+                       data[i].shop_shuipiao +
+                       '</e>水票</div>');
+
+                   top.appendTo(li);
+                   top1.appendTo(li);
+                   middle.appendTo(li);
+                   bottom.appendTo(li);
+                   li.appendTo(content);
+               }
+            }
+            else{alert2(result.message)}
+        };
+        $.ajax({
+            type:"POST",
+            url:'http://pandarun.crazypanda.cn/index.php/Coco/getAllCoco',
+            success:success,
+            error:function(e){alert2("error")}
+        });
+
+        $(".e-page  .e-content").on("click","li",function(){
+           var code = $(this).attr('data-id');
+          //  if (parseInt(myDate)>=startTime) {
+                window.location.href="detail.html?code="+code;
+           // }
+        });
+    })
+</script>
+</body>
+</html>

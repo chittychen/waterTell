@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" type="text/css" href="../css/global.css"/>
+    <title>vita coco 补水计划</title>
+    <style type="text/css">
+        .page{width: 100%; background-image: url(../images/home-1.jpg); background-size: 100% 100%;}
+        .home-page .home-btn{
+            position: absolute;
+            bottom: 4rem;
+            width: 6rem;
+            left: 9.35rem;
+        }
+    </style>
+</head>
+<body>
+<div class="page home-page">
+    <div class="close">
+        关闭
+    </div>
+    <img class="home-btn" src="../images/home-btn.png"/>
+</div>
+<script type="application/javascript" src="../js/jquery-2.1.1.min.js"></script>
+<script type="application/javascript" src="../js/global.js"></script>
+<script>
+    $(function(){
+
+        $(".home-btn").on("touchstart",function(){
+             var mid = localStorage.J_memberid;
+             var token = localStorage.J_token;
+            var url ="http://pandarun.crazypanda.cn/index.php/Coco/isHome";
+            var data = {
+                memberId:mid,
+                tokenId:token
+            };
+            var success = function(data){
+                data = $.parseJSON(data);
+                if(data.errorcode == 0){
+                    window.location.href='home.html';
+                }
+                else{alert2(data.message)}
+            };
+            var error = function(e){alert2(e)};
+            $.ajax({url:url,data:data, success:success, error:error})
+
+        });
+    })
+</script>
+</body>
+</html>
